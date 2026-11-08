@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17232b">
+  <meta name="description" content="TileFix India offers tile, marble and granite installation in Coimbatore.">
+  <title>TileFix India | Tile &amp; Stone Work</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; color: #17232b; background: #f7f6f2; font-family: Arial, sans-serif; line-height: 1.6; }
+    a { color: inherit; }
+    .wrap { width: min(100% - 32px, 1000px); margin: 0 auto; }
+    header { position: sticky; top: 0; z-index: 2; background: #fff; border-bottom: 1px solid #e8e4db; }
+    .nav { display: flex; min-height: 72px; align-items: center; justify-content: space-between; gap: 20px; }
+    .logo { flex: none; font-size: 22px; font-weight: 700; text-decoration: none; }
+    .logo span { color: #bc8523; }
+    .nav-links { display: flex; align-items: center; gap: 8px; }
+    .nav-links a { padding: 9px 11px; border-radius: 2px; color: #36434a; font-size: 14px; text-decoration: none; }
+    .nav-links a:hover, .nav-links a.active { background: #f2eee5; color: #9c6911; }
+    .nav-links a.nav-contact { border: 1px solid #bc8523; }
+    main { min-height: 65vh; }
+    .hero { padding: 76px 0; color: white; background: #17232b; }
+    .hero-inner { max-width: 700px; }
+    .tag { color: #bc8523; font-size: 13px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
+    .hero .tag { color: #e2b95f; }
+    h1 { margin: 14px 0; font: 48px/1.1 Georgia, serif; }
+    .hero p { max-width: 540px; color: #e3e7e8; }
+    .button { display: inline-block; margin: 12px 8px 0 0; padding: 12px 18px; border: 1px solid #d3a13f; background: #d3a13f; color: #17232b; font-weight: bold; text-decoration: none; }
+    .button:hover { background: #e4b85e; }
+    .button.secondary { border-color: #9aa3a7; background: transparent; color: white; }
+    .page { padding: 54px 0 64px; }
+    h2 { margin: 0 0 10px; font: 32px/1.2 Georgia, serif; }
+    .intro { max-width: 650px; margin: 0 0 26px; color: #626b70; }
+    .services { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .service { padding: 20px; background: white; border: 1px solid #e8e4db; }
+    .service h3 { margin: 0 0 5px; font: 21px Georgia, serif; }
+    .service p { margin: 0; color: #626b70; }
+    .about-box { margin-top: 24px; padding: 25px; background: #ece9e1; }
+    .about-box p { max-width: 700px; margin-bottom: 0; color: #4f595e; }
+    .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .gallery-item { min-height: 210px; display: flex; align-items: end; padding: 15px; color: white; background-color: #4a504e; background-position: center; background-size: cover; }
+    .gallery-item span { padding: 5px 9px; background: rgb(23 35 43 / 82%); }
+    .gallery-one { background-image: url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=700&q=80"); }
+    .gallery-two { background-image: url("https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=700&q=80"); }
+    .gallery-three { background-image: url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=700&q=80"); }
+    .contact-box { max-width: 650px; padding: 25px; background: #17232b; color: white; }
+    .contact-box p { color: #e3e7e8; }
+    .contact-box a:not(.button) { color: #e2b95f; }
+    .contact-row { margin: 8px 0; }
+    footer { padding: 18px 0; color: #5e686d; background: #fff; font-size: 13px; }
+    @media (max-width: 650px) {
+      .nav { align-items: flex-start; flex-direction: column; gap: 4px; padding: 12px 0; }
+      .nav-links { width: 100%; gap: 2px; overflow-x: auto; }
+      .nav-links a { padding: 8px; white-space: nowrap; font-size: 13px; }
+      .hero { padding: 56px 0; }
+      h1 { font-size: 39px; }
+      .page { padding: 42px 0; }
+      h2 { font-size: 28px; }
+      .services, .gallery { grid-template-columns: 1fr; }
+      .gallery-item { min-height: 190px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+  <script>
+    const h = React.createElement;
+    const pages = ["Home", "About", "Services", "Gallery", "Contact"];
+    const services = [
+      ["Tile fitting", "Floor and wall tiles for homes, bathrooms, kitchens and businesses."],
+      ["Marble & granite", "Stone installation, countertops and careful finishing."],
+      ["Tile design", "Decorative patterns and layouts planned for your space."],
+      ["Stone polishing", "Marble and granite polishing to restore a clean, smooth finish."]
+    ];
+
+    function currentPage() {
+      const page = window.location.hash.replace("#/", "").toLowerCase();
+      return pages.some(function (item) { return item.toLowerCase() === page; }) ? page : "home";
+    }
+
+    function PageLink(props) {
+      const slug = props.page.toLowerCase();
+      return h("a", {
+        href: "#/" + slug,
+        className: (props.className || "") + (props.current === slug ? " active" : ""),
+        "aria-current": props.current === slug ? "page" : undefined
+      }, props.children || props.page);
+    }
+
+    function ServiceList() {
+      return h("div", { className: "services" }, services.map(function (service) {
+        return h("article", { className: "service", key: service[0] },
+          h("h3", null, service[0]),
+          h("p", null, service[1])
+        );
+      }));
+    }
+
+    function HomePage() {
+      return h(React.Fragment, null,
+        h("section", { className: "hero" },
+          h("div", { className: "wrap hero-inner" },
+            h("div", { className: "tag" }, "Tile & stone work · Coimbatore"),
+            h("h1", null, "Every tile. ", h("br"), "Expertly finished."),
+            h("p", null, "TileFix India handles all types of tile and stone work, with careful fitting and a quality finish for every space."),
+            h(PageLink, { page: "Contact", className: "button" }, "Ask for a quote"),
+            h(PageLink, { page: "Services", className: "button secondary" }, "Our services")
+          )
+        ),
+        h("section", { className: "wrap page" },
+          h("h2", null, "What we do"),
+          h("p", { className: "intro" }, "From tile installation to detailed stone work, get the help you need from one experienced team."),
+          h(ServiceList, null),
+          h("div", { className: "about-box" },
+            h("h2", null, "Quality work. Lasting trust."),
+            h("p", null, "Led by founder Wasim Shaikh, TileFix India brings experience and attention to detail to every project."),
+            h(PageLink, { page: "About" }, "More about us →")
+          )
+        )
+      );
+    }
+
+    function AboutPage() {
+      return h("section", { className: "wrap page" },
+        h("div", { className: "tag" }, "About TileFix India"),
+        h("h1", null, "Craftsmanship in every detail."),
+        h("p", { className: "intro" }, "We are a tile and stone work team based in Coimbatore, helping make homes and businesses look their best."),
+        h("div", { className: "about-box" },
+          h("h2", null, "Our approach"),
+          h("p", null, "Led by founder Wasim Shaikh, we take care with preparation, alignment and finishing. Whether the job is tile fitting, marble or granite installation, or polishing, we aim to deliver dependable work and a clean finish.")
+        ),
+        h("p", null, "Have a project in mind? ", h(PageLink, { page: "Contact" }, "Get in touch with us →"))
+      );
+    }
+
+    function ServicesPage() {
+      return h("section", { className: "wrap page" },
+        h("div", { className: "tag" }, "What we do"),
+        h("h1", null, "Our services"),
+        h("p", { className: "intro" }, "One team for all kinds of tile and stone work. Contact us to discuss your space and what you have in mind."),
+        h(ServiceList, null)
+      );
+    }
+
+    function GalleryPage() {
+      return h("section", { className: "wrap page" },
+        h("div", { className: "tag" }, "Project inspiration"),
+        h("h1", null, "Gallery"),
+        h("p", { className: "intro" }, "A few ideas for tile and stone finishes in your home. These photos are examples of styles and surfaces."),
+        h("div", { className: "gallery" },
+          h("div", { className: "gallery-item gallery-one" }, h("span", null, "Modern interiors")),
+          h("div", { className: "gallery-item gallery-two" }, h("span", null, "Stone finishes")),
+          h("div", { className: "gallery-item gallery-three" }, h("span", null, "Living spaces"))
+        )
+      );
+    }
+
+    function ContactPage() {
+      return h("section", { className: "wrap page" },
+        h("div", { className: "tag" }, "Contact"),
+        h("h1", null, "Tell us about your project."),
+        h("p", { className: "intro" }, "Call, email or message us. We’ll be happy to discuss your tile or stone work."),
+        h("div", { className: "contact-box" },
+          h("p", { className: "contact-row" }, "Phone: ", h("a", { href: "tel:+918370970852" }, "+91 83709 70852")),
+          h("p", { className: "contact-row" }, "Email: ", h("a", { href: "mailto:info@tilefixindia.in" }, "info@tilefixindia.in")),
+          h("p", { className: "contact-row" }, "Location: Coimbatore, India"),
+          h("a", {
+            className: "button",
+            href: "https://wa.me/918370970852?text=Hello%20TileFix%20India%2C%20I%27d%20like%20to%20discuss%20a%20project."
+          }, "Message us on WhatsApp")
+        )
+      );
+    }
+
+    function App() {
+      const [page, setPage] = React.useState(currentPage);
+
+      React.useEffect(function () {
+        function updatePage() {
+          setPage(currentPage());
+          window.scrollTo(0, 0);
+        }
+        window.addEventListener("hashchange", updatePage);
+        return function () { window.removeEventListener("hashchange", updatePage); };
+      }, []);
+
+      const pageComponents = {
+        home: HomePage,
+        about: AboutPage,
+        services: ServicesPage,
+        gallery: GalleryPage,
+        contact: ContactPage
+      };
+      const ActivePage = pageComponents[page];
+
+      return h(React.Fragment, null,
+        h("header", null,
+          h("nav", { className: "wrap nav", "aria-label": "Main navigation" },
+            h(PageLink, { page: "Home", current: page, className: "logo" }, h(React.Fragment, null, "Tile", h("span", null, "Fix"), " India")),
+            h("div", { className: "nav-links" }, pages.map(function (item) {
+              return h(PageLink, {
+                key: item,
+                page: item,
+                current: page,
+                className: item === "Contact" ? "nav-contact" : ""
+              });
+            }))
+          )
+        ),
+        h("main", null, h(ActivePage, null)),
+        h("footer", null,
+          h("div", { className: "wrap" }, "© ", new Date().getFullYear(), " TileFix India · Coimbatore")
+        )
+      );
+    }
+
+    ReactDOM.render(h(App), document.getElementById("root"));
+  </script>
+</body>
+</html>
